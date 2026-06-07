@@ -33,3 +33,15 @@
 /home/l4rav3l/Projects/travelwithcode/Backend/obj/Debug/net8.0/Backend.pdb
 /home/l4rav3l/Projects/travelwithcode/Backend/obj/Debug/net8.0/Backend.genruntimeconfig.cache
 /home/l4rav3l/Projects/travelwithcode/Backend/obj/Debug/net8.0/ref/Backend.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/obj/Debug/net8.0/Backend.sourcelink.json
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/Konscious.Security.Cryptography.Argon2.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/Konscious.Security.Cryptography.Blake2.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/Microsoft.Bcl.Cryptography.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/Npgsql.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/System.Formats.Asn1.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll

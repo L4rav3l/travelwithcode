@@ -1,10 +1,14 @@
 using DotNetEnv;
+using TravelWithCode.Infrastructure;
 
 Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddSingleton<Postgresql>();
+builder.Services.AddSingleton<Argon2>();
+builder.Services.AddSingleton<JsonWebToken>();
 
 var app = builder.Build();
 

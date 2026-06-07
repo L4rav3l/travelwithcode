@@ -30,7 +30,7 @@ public class Argon2
 
     public string GenerateSalt(int size = SaltSize)
     {
-        using(var rng = RandomNumberGeneration())
+        using(var rng = RandomNumberGenerator.Create())
         {
             byte[] salt = new byte[size];
             rng.GetBytes(salt);

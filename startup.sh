@@ -5,9 +5,11 @@ CREATE DATABASE travelwithcode;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    username TEXT NOT NULL,
+    token_version INTEGER DEFAULT 1,
+    username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
-    salt TEXT NOT NULL,
+    hash TEXT NOT NULL,
     github_token TEXT,
-    github_vector TEXT
+    github_embedding TEXT,
+    admin BOOLEAN DEFAULT FALSE
 );

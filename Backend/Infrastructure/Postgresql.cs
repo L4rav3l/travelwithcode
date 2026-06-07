@@ -2,7 +2,7 @@ using Npgsql;
 
 namespace TravelWithCode.Infrastructure;
 
-class Postgresql
+public class Postgresql
 {
     private readonly string _connectionString;
 

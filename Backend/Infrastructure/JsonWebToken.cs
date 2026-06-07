@@ -16,7 +16,7 @@ public class JsonWebToken
 
     public JsonWebToken()
     {
-        _jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET";)
+        _jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
     }
 
     public string GenerateToken(int id, int tokenVersion)
@@ -24,10 +24,10 @@ public class JsonWebToken
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-        var claims = new Claim()
+        var claims = new List<Claim>
         {
             new Claim("id", id.ToString()),
-            new Claim("tokenVersion", tokenVersion.ToString)
+            new Claim("tokenVersion", tokenVersion.ToString())
         };
 
         var token = new JwtSecurityToken(
@@ -59,7 +59,7 @@ public class JsonWebToken
 
         try
         {
-            var principal = new JwtSecurityTokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedtoken);
+            var principal = new JwtSecurityTokenHandler().ValidateToken(token, validationParameters, out SecurityToken validatedtoken);
 
             int id = int.Parse(principal.FindFirst("id")?.Value);
             int tokenVersion = int.Parse(principal.FindFirst("tokenVersion")?.Value);
