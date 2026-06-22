@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "OzVnzkplWZI=",
+  "dgSpecHash": "x2rWU6nPnBo=",
   "success": true,
   "projectFilePath": "/home/l4rav3l/Projects/travelwithcode/Backend/Backend.csproj",
   "expectedPackageFiles": [
@@ -98,8 +98,8 @@
     "/home/l4rav3l/.nuget/packages/system.threading.timer/4.3.0/system.threading.timer.4.3.0.nupkg.sha512",
     "/home/l4rav3l/.nuget/packages/system.xml.readerwriter/4.3.0/system.xml.readerwriter.4.3.0.nupkg.sha512",
     "/home/l4rav3l/.nuget/packages/system.xml.xdocument/4.3.0/system.xml.xdocument.4.3.0.nupkg.sha512",
-    "/home/l4rav3l/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.25/microsoft.aspnetcore.app.ref.8.0.25.nupkg.sha512",
-    "/home/l4rav3l/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.25/microsoft.netcore.app.host.linux-x64.8.0.25.nupkg.sha512"
+    "/home/l4rav3l/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.27/microsoft.aspnetcore.app.ref.8.0.27.nupkg.sha512",
+    "/home/l4rav3l/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.27/microsoft.netcore.app.host.linux-x64.8.0.27.nupkg.sha512"
   ],
   "logs": []
 }

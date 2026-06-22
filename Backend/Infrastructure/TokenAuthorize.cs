@@ -45,7 +45,7 @@ public class AuthorizationFilter : IAsyncAuthorizationFilter
                     checkUser.Parameters.AddWithValue("id", id);
                     checkUser.Parameters.AddWithValue("tokenVersion", tokenVersion);
 
-                    await using(var reader = checkUser.ExecuteReaderAsync())
+                    await using(var reader = await checkUser.ExecuteReaderAsync())
                     {
                         if(await reader.ReadAsync())
                         {

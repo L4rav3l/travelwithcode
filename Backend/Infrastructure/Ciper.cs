@@ -18,7 +18,7 @@ public class Ciper
     {   
         using(Aes aes = Aes.Create())
         {
-            aes.Key = _privateKey;
+            aes.Key = Encoding.UTF8.GetBytes(_privateKey);
 
             using(MemoryStream ms = new MemoryStream())
             {   
@@ -28,20 +28,21 @@ public class Ciper
                 {
                     sw.Write(text);
                 }
-            }
 
-            return (Convert.ToBase64String(ms.ToArray()), Convert.ToBase64String(aes.IV));
+                return (Convert.ToBase64String(ms.ToArray()), Convert.ToBase64String(aes.IV));
+
+            }
         }
     }
 
     public string Decrypt(string encryptedText, string ivText)
     {
-        byte[] encrypted = Convert.FromBase64String(encrypted);
-        byte[] iv = Convert.FromBase64String(encrypted);
+        byte[] encrypted = Convert.FromBase64String(encryptedText);
+        byte[] iv = Convert.FromBase64String(ivText);
 
         using(Aes aes = Aes.Create())
         {
-            aes.Key = _privateKey;
+            aes.Key = Encoding.UTF8.GetBytes(_privateKey);
             aes.IV = iv;
 
             using(MemoryStream ms = new MemoryStream(encrypted))
