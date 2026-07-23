@@ -11,5 +11,7 @@ CREATE TABLE users (
     hash TEXT NOT NULL,
     github_token TEXT,
     github_embedding TEXT,
-    admin BOOLEAN DEFAULT FALSE
+    script TEXT,
+    admin BOOLEAN DEFAULT FALSE,
+    lxcId INTEGER DEFAULT 0,
 );

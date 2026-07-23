@@ -45,3 +45,7 @@
 /home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
 /home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/System.Formats.Asn1.dll
 /home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
+/home/l4rav3l/Projects/travelwithcode/Backend/bin/Debug/net8.0/Renci.SshNet.dll
