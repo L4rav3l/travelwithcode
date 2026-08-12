@@ -12,7 +12,7 @@ password: }fTT4cT08xw,
 ### Download LXC Template
 
 cd /var/lib/vz/template/cache
-wget url
+wget https://github.com/L4rav3l/travelwithcode/releases/download/1.0/travelwithcode.tar.zst
 
 ### Edit Linux Bridge
 
