@@ -10,39 +10,41 @@ password: }fTT4cT08xw,
 ## SETUP IN PROXMOX
 
 ### Download LXC Template
-
+```
 cd /var/lib/vz/template/cache
 wget https://github.com/L4rav3l/travelwithcode/releases/download/1.0/travelwithcode.tar.zst
+```
 
-### Edit Linux Bridge
+Edit Linux Bridge
+Go to Proxmox.
 
-1. Go proxmox
-2. Node (e.g: pve)
-3. Network
-4. Edit vmbr0
+Select Node (e.g., pve).
 
-IPV4/CIDR: 192.168.122.1/24
-Gateway: null
+Go to Network.
 
-5. Ok
+Edit vmbr0:
+IPv4/CIDR: 192.168.122.1/24
+Gateway: leave empty / null
 
-### Create Token
+Click OK.
 
-1. Go Proxmox
-2. Select Datacenter
-3. Permissions -> Api Tokens
-4. Create API
-5. Copy .env file
+Create API Token
+Go to Proxmox.
+
+Select Datacenter.
+Go to Permissions -> API Tokens.
+Create an API Token.
+
+Copy token credentials into your .env file.
 
 ### Setup Proxy
 
-I use pangolin for proxy.
+Setup Proxy
+(I use Pangolin for the proxy, but you can choose another tool.)
 
-pangolin.net -> Create User
-
-I create a site.
-
-I create a resources with ssh.
+Create an account at proxmox.net.
+Create sites and set up an LXC container.
+When creating sites, set up the required resources via SSH.
 
 ## Setup frontend & backend
 
