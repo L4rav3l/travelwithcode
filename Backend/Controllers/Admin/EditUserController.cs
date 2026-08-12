@@ -13,9 +13,10 @@ public class EditUserController : ControllerBase
     private readonly Postgresql _postgresql;
     private readonly Argon2 _argon2;
 
-    public EditUserController(Postgresql postgresql)
+    public EditUserController(Postgresql postgresql, Argon2 argon2)
     {
         _postgresql = postgresql;
+        _argon2 = argon2;
     }
 
     [HttpPost("api/admin/edit_user")]
@@ -76,6 +77,7 @@ public class EditUserController : ControllerBase
                 updateUsers.Parameters.AddWithValue("password", encryptedPassword);
                 updateUsers.Parameters.AddWithValue("salt", salt);
                 updateUsers.Parameters.AddWithValue("admin", isAdmin);
+                updateUsers.Parameters.AddWithValue("id", id);
 
                 await updateUsers.ExecuteNonQueryAsync();
             }

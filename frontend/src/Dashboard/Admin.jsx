@@ -13,6 +13,8 @@ function Admin()
     const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     const navigate = useNavigate();
 
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
     useEffect(() => {
         const handleList = async () => {
             try
@@ -46,11 +48,15 @@ function Admin()
         try
         {
             const response = axios.post("/api/admin/add_admin", {Id: id}, {headers: {Authorization: `Bearer ${token}`}});
-            handleList();
         }
         catch
         {
 
+        }
+        finally
+        {
+            await sleep(1000);
+            handleList();
         }
     }
 
@@ -58,11 +64,15 @@ function Admin()
         try
         {
             const resposne = axios.post("/api/admin/remove_admin", {Id: id}, {headers: {Authorization: `Bearer ${token}`}});
-            handleList();
         }
         catch
         {
 
+        }
+        finally
+        {
+            await sleep(1000);
+            handleList();
         }
     }
 
@@ -70,11 +80,15 @@ function Admin()
         try
         {
             const response = axios.post("/api/admin/delete_user", {Id: id}, {headers: {Authorization: `Bearer ${token}`}});
-            handleList();
         }
         catch
         {
 
+        }
+        finally
+        {
+            await sleep(1000);
+            handleList();
         }
     }
 
@@ -108,7 +122,7 @@ function Admin()
                                     <td class="text-center">{user.admin ? "Yes" : "No"}</td>
                                     <td class="text-left gap-1 justify-center">
                                         <div class="flex flex-row justify-center gap-2">
-                                            <MdEdit class="cursor-pointer" size={12} onClick={() => {navigate(`edit?id=${user.id}`)}}/>
+                                            <MdEdit class="cursor-pointer" size={12} onClick={() => {navigate(`edit?data=${btoa(unescape(encodeURIComponent(JSON.stringify({ id: user.id, username: user.username, admin: user.admin }))))}`)}}/>
                                             {user.admin ? (<FaArrowDownLong class="cursor-pointer" size={12} onClick={() => {handleDemote(user.id)}}/>) : (<FaArrowUpLong class="cursor-pointer" size={12} onClick={() => {handlePromote(user.id)}}/>)}
                                             <FaTrashAlt class="cursor-pointer" size={12} onClick={() => {handleRemove(user.id)}}/>
                                         </div>

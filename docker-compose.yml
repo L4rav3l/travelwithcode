@@ -1,0 +1,53 @@
+services:
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - PSQL_CONNECTION=${PSQL_CONNECTION}
+      - JWT_SECRET=${JWT_SECRET}
+      - PRIVATE_KEY=${PRIVATE_KEY}
+      - PROXMOX_URL=${PROXMOX_URL}
+      - PROXMOX_TOKEN=${PROXMOX_TOKEN}
+      - PROXMOX_DATACENTER=${PROXMOX_DATACENTER}
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-scraperdb}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sql:ro
+    ports:
+      - "8002:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -70,7 +70,7 @@ function Settings()
         try
         {
             setLoading(true);
-            const response = await axios.post("/api/github/set_token", {githubToken: token}, {headers: {Authorization: `Bearer ${token}`}})
+            const response = await axios.post("/api/github/set_token", {githubToken: githubtoken}, {headers: {Authorization: `Bearer ${token}`}})
         }
         catch
         {

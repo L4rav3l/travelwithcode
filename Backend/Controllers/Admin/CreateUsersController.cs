@@ -51,9 +51,21 @@ public class CreateUsersController : ControllerBase
 
         await using(var conn = await _postgresql.GetOpenConnectionAsync())
         {
-            await using(var insertUser = new NpgsqlCommand("INSERT INTO users (username, password, salt, admin) VALUES (@username, @password, @salt, @admin)"))
+            await using(var checkUsername = new NpgsqlCommand("SELECT * FROM users WHERE username = @username", conn))
             {
-                insertUser.Parameters.AddWithValue("username");
+                checkUsername.Parameters.AddWithValue("username", username);
+
+                await using(var reader = await checkUsername.ExecuteReaderAsync())
+                {
+                    if(await reader.ReadAsync())
+                    {
+                        return Conflict("The username is reserved.");
+                    }
+                }
+            }
+            await using(var insertUser = new NpgsqlCommand("INSERT INTO users (username, password, salt, admin) VALUES (@username, @password, @salt, @admin)", conn))
+            {
+                insertUser.Parameters.AddWithValue("username", username);
                 insertUser.Parameters.AddWithValue("password", encryptedPassword);
                 insertUser.Parameters.AddWithValue("salt", salt);
                 insertUser.Parameters.AddWithValue("admin", admin);

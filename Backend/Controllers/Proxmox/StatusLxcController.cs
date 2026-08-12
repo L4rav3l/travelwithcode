@@ -7,41 +7,39 @@ namespace TravelWithCode.Controllers;
 
 [ApiController]
 [ServiceFilter(typeof(AuthorizationFilter))]
-
-public class DeleteLxcContainer : ControllerBase
+public class StatusLxcController : ControllerBase
 {
+
     private readonly Postgresql _postgresql;
-    private readonly ProxmoxService _proxmoxService;
-    private readonly SSHService _sshService;
-    
-    public DeleteLxcContainer(Postgresql postgresql, ProxmoxService proxmoxService, SSHService sshService)
+
+    public StatusLxcController(Postgresql postgresql)
     {
         _postgresql = postgresql;
-        _proxmoxService = proxmoxService;
-        _sshService = sshService;
     }
 
-    [HttpPost("api/proxmox/delete_lxc")]
-    public async Task<IActionResult> DeleteLxc(DeleteLxcRequest request)
+    [HttpGet("api/proxmox/lxc")]
+    public async Task<IActionResult> Status()
     {
         var userID = HttpContext.Items["UserId"];
-        int lxcId = 0;
 
         await using(var conn = await _postgresql.GetOpenConnectionAsync())
         {
             await using(var userData = new NpgsqlCommand("SELECT * FROM users WHERE id = @id", conn))
             {
                 userData.Parameters.AddWithValue("id", Convert.ToInt32(userID));
-
+            
                 await using(var reader = await userData.ExecuteReaderAsync())
                 {
-                    lxcId = reader.GetInt32(reader.GetOrdinal("lxcid"));
+                    if(await reader.ReadAsync())
+                    {
+                        int lxcId = reader.GetInt32(reader.GetOrdinal("lxcid"));
+                        return Ok(lxcId);
+                    }
                 }
             }
         }
 
-        await _proxmoxService.DeleteLXCAsync(lxcId);
-
-        return Ok();
+        return BadRequest();
     }
+
 }

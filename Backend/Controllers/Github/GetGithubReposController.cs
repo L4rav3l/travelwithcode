@@ -1,12 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
-using System.Text.Json;
+using System.Net.Http.Headers;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TravelWithCode.Infrastructure;
 using Npgsql;
-
+using TravelWithCode.Infrastructure;
 
 namespace TravelWithCode.Controllers;
 
@@ -16,13 +16,13 @@ public class GetGithubReposController : ControllerBase
 {
     private readonly Postgresql _postgresql;
     private readonly Ciper _ciper;
-    private readonly HttpClient _client;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public GetGithubReposController(Postgresql postgresql, Ciper ciper)
+    public GetGithubReposController(Postgresql postgresql, Ciper ciper, IHttpClientFactory httpClientFactory)
     {
         _postgresql = postgresql;
         _ciper = ciper;
-        _client = new HttpClient();
+        _httpClientFactory = httpClientFactory;
     }
 
     [HttpGet("api/github/repos")]
@@ -34,22 +34,24 @@ public class GetGithubReposController : ControllerBase
         string encrypted = null;
         string iv = null;
 
-        List<string> listOfRepos = new List<string>();
+        var listOfRepos = new List<string>();
 
-        await using(var conn = await _postgresql.GetOpenConnectionAsync())
+        await using (var conn = await _postgresql.GetOpenConnectionAsync())
         {
-            await using(var userData = new NpgsqlCommand("SELECT * FROM users WHERE id = @id AND token_version = @tokenVersion", conn))
+            await using (var userData = new NpgsqlCommand("SELECT github_token, github_embedding FROM users WHERE id = @id AND token_version = @tokenVersion", conn))
             {
                 userData.Parameters.AddWithValue("id", userID);
                 userData.Parameters.AddWithValue("tokenVersion", tokenVersion);
 
-                await using(var reader = await userData.ExecuteReaderAsync())
+                await using (var reader = await userData.ExecuteReaderAsync())
                 {
-                    if(await reader.ReadAsync())
+                    if (await reader.ReadAsync())
                     {
                         encrypted = reader.GetString(reader.GetOrdinal("github_token"));
                         iv = reader.GetString(reader.GetOrdinal("github_embedding"));
-                    } else {
+                    }
+                    else
+                    {
                         return NotFound();
                     }
                 }
@@ -58,28 +60,44 @@ public class GetGithubReposController : ControllerBase
 
         string token = _ciper.Decrypt(encrypted, iv);
 
-        try
+        if (string.IsNullOrEmpty(token))
         {
-            _client.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("travelwithcode", "1.0"));
-            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-
-            HttpResponseMessage response = await _client.GetAsync("https://api.github.com/user/repos?type=owner");
-            
-            response.EnsureSuccessStatusCode();
-
-            string responseBody = await response.Content.ReadAsStringAsync();
-            var jsonData = System.Text.Json.Nodes.JsonNode.Parse(responseBody).AsArray();
-
-            foreach(var repo in jsonData)
-            {
-                listOfRepos.Add(repo["full_name"].ToString());
-            }
+            return Unauthorized("A GitHub token hiányzik vagy nem dekódolható.");
         }
 
-        catch(Exception ex)
+        try
         {
-            Console.WriteLine(ex);
-            return Unauthorized();
+            var client = _httpClientFactory.CreateClient();
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://api.github.com/user/repos?type=owner");
+            request.Headers.UserAgent.Add(new ProductInfoHeaderValue("travelwithcode", "1.0"));
+            
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage response = await client.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string errorBody = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"GitHub API Hiba [{response.StatusCode}]: {errorBody}");
+                return StatusCode((int)response.StatusCode, errorBody);
+            }
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var jsonData = JsonNode.Parse(responseBody)?.AsArray();
+
+            if (jsonData != null)
+            {
+                foreach (var repo in jsonData)
+                {
+                    listOfRepos.Add(repo["full_name"]?.ToString());
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+            return StatusCode(500, "FATAL ERROR.");
         }
 
         return Ok(listOfRepos);
