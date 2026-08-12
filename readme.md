@@ -54,14 +54,14 @@ content:
 
 ```
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=jelszod
-POSTGRES_DB=scraperdb
+POSTGRES_PASSWORD=password
+POSTGRES_DB=travelwithcode
 JWT_SECRET=dsfghjafdhadfsghjkadfghjkadfghjks
-PSQL_CONNECTION="Host=localhost;Port=5432;Username=postgres;Password=jelszod;Database=travelwithcode;Pooling=true;MaxPoolSize=100;Timeout=5;"
+PSQL_CONNECTION="Host=localhost;Port=5432;Username=postgres;Password=password;Database=travelwithcode;Pooling=true;MaxPoolSize=100;Timeout=5;"
 PRIVATE_KEY=HEINER_ERNO_1234
 
-PROXMOX_URL=
-PROXMOX_TOKEN=
+PROXMOX_URL=https://192.168.1.2:8006
+PROXMOX_TOKEN=PVEAPIToken=root@pam!insomnia=64889701-5afc-40c9-8e28-91c4f55c11bf
 PROXMOX_DATACENTER=pve
 ```
 You don't need to install PostgreSQL or any other dependencies, as Docker takes care of that. 
