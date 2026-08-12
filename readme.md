@@ -67,6 +67,12 @@ PROXMOX_DATACENTER=pve
 You don't need to install PostgreSQL or any other dependencies, as Docker takes care of that. 
 You need install just a docker.
 
+docker install commands:
+```
+sudo apt update
+sudo apt install -y docker.io docker-compose-plugin
+```
+
 USE ```sudo docker compose up -d``` command
 
 you can enter the website at: http://localhost:8000 
