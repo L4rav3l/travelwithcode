@@ -75,7 +75,7 @@ function CreateLxc()
         <>
             <div class="h-screen flex flex-col justify-center items-center">
                 <div class="flex flex-col gap-1 bg-white/10 items-center justify-center p-4 rounded-lg">
-                    {haveLXC === true && (<><span class="text-white">SSH TUNNEL: sshuttle -r {lxcId}@{window.location.hostname} 192.168.122.{lxcId}/24</span><button class="bg-red-600 p-2 rounded-lg text-white" onClick={() => {deleteLxc()}}>Destroy container</button> <span class="text-white">We won't commit the last version of your file!</span> </>)}
+                    {haveLXC === true && (<><span class="text-white">https://{lxcId}.{window.location.hostname}</span><span class="text-white">Username: lxc</span><span class="text-white">Password: }fTT4cT08xw,</span><button class="bg-red-600 p-2 rounded-lg text-white" onClick={() => {deleteLxc()}}>Destroy container</button> <span class="text-white">We won't commit the last version of your file!</span> </>)}
                     {haveLXC === false &&(
                         <div class="flex flex-col w-64 gap-2">
                             <span class="text-white text-center">
