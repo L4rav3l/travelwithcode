@@ -64,6 +64,7 @@ PROXMOX_URL=
 PROXMOX_TOKEN=
 PROXMOX_DATACENTER=pve
 ```
+You don't need to install PostgreSQL or any other dependencies, as Docker takes care of that.
 
 USE ```sudo docker compose up -d``` command
 
